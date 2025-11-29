@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sree Kantha — Thumbnail Banner Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+    <h2>Thumbnail / Banner Generator (16:9 — 1280×720)</h2>
+
+    <div class="controls">
+      <label>
+        Driver photo:
+        <input id="driverFile" type="file" accept="image/*">
+      </label>
+
+      <label>
+        Title:
+        <input id="titleInput" type="text" value="Sree Kantha Tour and Travel">
+      </label>
+
+      <label>
+        Taxi number:
+        <input id="taxiInput" type="text" value="AP 04 T5621">
+      </label>
+
+      <label>
+        QR content (url / text):
+        <input id="qrInput" type="text" value="https://wa.me/919999999999">
+      </label>
+
+      <button id="renderBtn">Render Banner</button>
+      <button id="downloadBtn">Download PNG</button>
+    </div>
+
+    <div class="preview-area">
+      <canvas id="bannerCanvas" width="1280" height="720"></canvas>
+    </div>
+
+    <p class="notes">
+      Notes: Default driver image and QR use placeholders. Replace driver photo by uploading an image. The QR will be generated from the text/url you enter.
+    </p>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
