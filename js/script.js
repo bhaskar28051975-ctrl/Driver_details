@@ -4,11 +4,12 @@
 
 const canvas = document.getElementById('bannerCanvas');
 const ctx = canvas.getContext('2d');
-
 const driverFile = document.getElementById('driverFile');
 const titleInput = document.getElementById('titleInput');
 const taxiInput = document.getElementById('taxiInput');
 const qrInput = document.getElementById('qrInput');
+const stand = document.getElementById("standInput").value;
+const license = document.getElementById("licenseInput").value;
 const renderBtn = document.getElementById('renderBtn');
 const downloadBtn = document.getElementById('downloadBtn');
 
