@@ -87,3 +87,8 @@ h2{
   margin-bottom: 12px;
 }
 
+/* Make all labels and values same size as Title */
+.label,
+.value {
+    font-size: 26px;
+}
