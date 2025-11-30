@@ -17,6 +17,7 @@ body{
 h2{
   margin: 6px 0 14px 0;
 }
+
 .controls{
   display:flex;
   flex-wrap:wrap;
@@ -25,10 +26,8 @@ h2{
   margin-bottom:12px;
 }
 .controls label{
-  display:flex;
-  gap:6px;
-  align-items:center;
-  font-size:14px;
+  display:block;
+  margin-bottom:12px;
 }
 .controls input[type="text"]{
   padding:6px 8px;
@@ -47,32 +46,28 @@ h2{
   color:white;
   cursor:pointer;
 }
-.controls button:hover{ opacity:0.92; }
+.controls button:hover{
+  opacity:0.92;
+}
 
 .preview-area{
-  background: #ddd;
-  padding: 12px;
+  background:#ddd;
+  padding:12px;
   display:flex;
   justify-content:center;
   align-items:center;
   border-radius:8px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
 
 /* make canvas responsive in page but keep internal pixel dims 1280x720 */
 #bannerCanvas{
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  border: 2px solid #222;
+  width:100%;
+  height:auto;
+  max-width:100%;
+  border:2px solid #222;
   border-radius:4px;
 }
-
-.controls label {
-  display: block;
-  margin-bottom: 10px;
-}
-
 
 /* tiny notes */
 .notes{
@@ -81,22 +76,10 @@ h2{
   color:#333;
 }
 
-/* New fields (Stand + Licence Number spacing) */
-.controls label {
-  display: block;
-  margin-bottom: 12px;
-}
-
-/* Make all labels and values same size as Title */
-.label,
-.value {
-    font-size: 26px;
-}
-
 /* Make all labels and values same size */
 .label,
-.value {
-    font-size: 26px;
-    font-weight: 600;
-    color: #000;
+.value{
+  font-size:26px;
+  font-weight:600;
+  color:#000;
 }
