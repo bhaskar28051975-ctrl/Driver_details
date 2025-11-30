@@ -80,3 +80,10 @@ h2{
   font-size:13px;
   color:#333;
 }
+
+/* New fields (Stand + Licence Number spacing) */
+.controls label {
+  display: block;
+  margin-bottom: 12px;
+}
+
