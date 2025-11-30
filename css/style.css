@@ -92,3 +92,11 @@ h2{
 .value {
     font-size: 26px;
 }
+
+/* Make all labels and values same size */
+.label,
+.value {
+    font-size: 26px;
+    font-weight: 600;
+    color: #000;
+}
