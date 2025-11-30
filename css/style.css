@@ -68,6 +68,12 @@ h2{
   border-radius:4px;
 }
 
+.controls label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+
 /* tiny notes */
 .notes{
   margin-top:8px;
