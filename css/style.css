@@ -25,10 +25,17 @@ h2{
   align-items:center;
   margin-bottom:12px;
 }
-.controls label{
+
+/* All labels same size */
+.controls label,
+label {
   display:block;
   margin-bottom:12px;
+  font-size:26px;
+  font-weight:600;
+  color:#000;
 }
+
 .controls input[type="text"]{
   padding:6px 8px;
   min-width:220px;
@@ -76,7 +83,7 @@ h2{
   color:#333;
 }
 
-/* Make all labels and values same size */
+/* For values inside banner */
 .label,
 .value{
   font-size:26px;
