@@ -1,50 +1,59 @@
-document.getElementById("renderBtn").addEventListener("click", function () {
-  const driverFile = document.getElementById("driverFile").files[0];
-  const title = document.getElementById("titleInput").value;
-  const taxi = document.getElementById("taxiInput").value;
-  const stand = document.getElementById("standInput").value;
-  const license = document.getElementById("licenseInput").value;
+const canvas = document.getElementById('bannerCanvas');
+const ctx = canvas.getContext('2d');
 
-  const canvas = document.getElementById("bannerCanvas");
-  const ctx = canvas.getContext("2d");
+const driverFileInput = document.getElementById('driverFile');
+const titleInput = document.getElementById('titleInput');
+const taxiInput = document.getElementById('taxiInput');
+const standInput = document.getElementById('standInput');
+const licenseInput = document.getElementById('licenseInput');
 
-  // Background color
-  ctx.fillStyle = "#222";
+const renderBtn = document.getElementById('renderBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+
+// Function to render banner
+function renderBanner() {
+  // Clear canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Optional: Background color
+  ctx.fillStyle = '#fff';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Load driver photo
+  // Set common font style
+  ctx.fillStyle = '#000';
+  ctx.font = '26px Arial'; // <-- Font size for all text
+  ctx.textBaseline = 'top';
+
+  // Draw Title
+  ctx.fillText(titleInput.value, 200, 50); // x=200, y=50
+
+  // Draw Taxi Number
+  ctx.fillText(`Taxi Number: ${taxiInput.value}`, 200, 120);
+
+  // Draw Stand Name
+  ctx.fillText(`Stand: ${standInput.value}`, 200, 190);
+
+  // Draw License Number
+  ctx.fillText(`License: ${licenseInput.value}`, 200, 260);
+
+  // Draw Driver Photo if uploaded
+  const driverFile = driverFileInput.files[0];
   if (driverFile) {
     const img = new Image();
-    img.onload = () => {
-      ctx.drawImage(img, 0, 0, 400, 720);
-
-      drawText();
+    img.onload = function () {
+      ctx.drawImage(img, 20, 50, 150, 150); // x, y, width, height
     };
     img.src = URL.createObjectURL(driverFile);
-  } else {
-    drawText();
   }
+}
 
-  function drawText() {
-    // --------- BIG BOLD FONT FOR ALL TEXT ----------
-    const FONT = "bold 48px Arial"; 
-    ctx.font = FONT;
-    ctx.fillStyle = "#ffffff";
-    ctx.textBaseline = "top";
+// Render button click
+renderBtn.addEventListener('click', renderBanner);
 
-    // Text Positions
-    ctx.fillText(title, 420, 60);
-    ctx.fillText("Taxi No: " + taxi, 420, 160);
-    ctx.fillText("Stand: " + stand, 420, 260);
-    ctx.fillText("License: " + license, 420, 360);
-  }
-});
-
-// Download PNG
-document.getElementById("downloadBtn").addEventListener("click", function () {
-  const canvas = document.getElementById("bannerCanvas");
-  const link = document.createElement("a");
-  link.download = "banner.png";
-  link.href = canvas.toDataURL();
+// Download banner as PNG
+downloadBtn.addEventListener('click', () => {
+  const link = document.createElement('a');
+  link.download = 'banner.png';
+  link.href = canvas.toDataURL('image/png');
   link.click();
 });
