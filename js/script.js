@@ -10,50 +10,69 @@ const licenseInput = document.getElementById('licenseInput');
 const renderBtn = document.getElementById('renderBtn');
 const downloadBtn = document.getElementById('downloadBtn');
 
-// Function to render banner
+// MAIN RENDER FUNCTION
 function renderBanner() {
-  // Clear canvas
+
+  // Clear
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Optional: Background color
-  ctx.fillStyle = '#fff';
+  // Background
+  ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Set common font style
-  ctx.fillStyle = '#000';
-  ctx.font = '26px Arial'; // <-- Font size for all text
-  ctx.textBaseline = 'top';
+  // Draw LEFT photo box (fixed size)
+  const photoX = 40;
+  const photoY = 80;
+  const photoW = 360;
+  const photoH = 360;
 
-  // Draw Title
-  ctx.fillText(titleInput.value, 200, 50); // x=200, y=50
+  // Draw placeholder border
+  ctx.strokeStyle = "#555";
+  ctx.lineWidth = 3;
+  ctx.strokeRect(photoX, photoY, photoW, photoH);
 
-  // Draw Taxi Number
-  ctx.fillText(`Taxi Number: ${taxiInput.value}`, 200, 120);
-
-  // Draw Stand Name
-  ctx.fillText(`Stand: ${standInput.value}`, 200, 190);
-
-  // Draw License Number
-  ctx.fillText(`License: ${licenseInput.value}`, 200, 260);
-
-  // Draw Driver Photo if uploaded
+  // Load and draw driver photo
   const driverFile = driverFileInput.files[0];
   if (driverFile) {
     const img = new Image();
     img.onload = function () {
-      ctx.drawImage(img, 20, 50, 150, 150); // x, y, width, height
+      ctx.drawImage(img, photoX, photoY, photoW, photoH);
     };
     img.src = URL.createObjectURL(driverFile);
   }
+
+  // TEXT START POSITION
+  const textX = 450;
+  let tY = 100;
+
+  ctx.fillStyle = "#000";
+  ctx.textBaseline = "top";
+
+  // TITLE (bigger)
+  ctx.font = "bold 40px Arial";
+  ctx.fillText(titleInput.value, textX, tY);
+  tY += 80;
+
+  // Smaller (26px) details
+  ctx.font = "26px Arial";
+
+  ctx.fillText("Taxi Number: " + taxiInput.value, textX, tY);
+  tY += 60;
+
+  ctx.fillText("Stand Name: " + standInput.value, textX, tY);
+  tY += 60;
+
+  ctx.fillText("License Number: " + licenseInput.value, textX, tY);
+  tY += 60;
 }
 
-// Render button click
-renderBtn.addEventListener('click', renderBanner);
+// Render button
+renderBtn.addEventListener("click", renderBanner);
 
-// Download banner as PNG
-downloadBtn.addEventListener('click', () => {
-  const link = document.createElement('a');
-  link.download = 'banner.png';
-  link.href = canvas.toDataURL('image/png');
+// Download image
+downloadBtn.addEventListener("click", function () {
+  const link = document.createElement("a");
+  link.download = "banner.png";
+  link.href = canvas.toDataURL("image/png");
   link.click();
 });
