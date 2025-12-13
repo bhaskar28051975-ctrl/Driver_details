@@ -102,6 +102,10 @@ canvas {
       <input id="licenseInput" type="text" value="APXX/123456">
     </label>
 
+    <label>Phone Number:
+  <input id="phoneInput" type="text" value="+91 91540 95125">
+</label>
+
     <button onclick="renderBanner()">Render Banner</button>
     <button onclick="downloadBanner()">Download PNG</button>
   </div>
@@ -161,7 +165,8 @@ function renderBanner() {
   const taxi = document.getElementById("taxiInput").value;
   const stand = document.getElementById("standInput").value;
   const license = document.getElementById("licenseInput").value;
-
+  const phone = document.getElementById("phoneInput").value;
+  
   ctx.fillStyle = "#ffffff";
   ctx.textAlign = "left";
 
@@ -186,6 +191,10 @@ function renderBanner() {
   ctx.font = fitText(ctx, license, 750, 44, "normal");
   ctx.fillText("License: " + license, 450, 420);
 }
+
+  /* PHONE NUMBER */
+ctx.font = fitText(ctx, phone, 750, 44, "bold");
+ctx.fillText("📞 " + phone, 450, 480);
 
 /* ===== DOWNLOAD ===== */
 function downloadBanner() {
