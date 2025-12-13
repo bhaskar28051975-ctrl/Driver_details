@@ -166,7 +166,7 @@ function renderBanner() {
   const stand = document.getElementById("standInput").value;
   const license = document.getElementById("licenseInput").value;
   const phone = document.getElementById("phoneInput").value;
-  
+
   ctx.fillStyle = "#ffffff";
   ctx.textAlign = "left";
 
@@ -190,11 +190,11 @@ function renderBanner() {
   /* LICENSE */
   ctx.font = fitText(ctx, license, 750, 44, "normal");
   ctx.fillText("License: " + license, 450, 420);
-}
 
-  /* PHONE NUMBER */
-ctx.font = fitText(ctx, phone, 750, 44, "bold");
-ctx.fillText("📞 " + phone, 450, 480);
+  /* PHONE NUMBER ✅ FIXED */
+  ctx.font = fitText(ctx, phone, 750, 44, "bold");
+  ctx.fillText("📞 " + phone, 450, 480);
+}
 
 /* ===== DOWNLOAD ===== */
 function downloadBanner() {
