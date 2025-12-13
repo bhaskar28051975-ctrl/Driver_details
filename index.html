@@ -1,1 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sree Kantha — Thumbnail Banner Generator</title>
 
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
+}
+
+.page {
+  max-width: 1100px;
+  margin: auto;
+  padding: 15px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.controls label {
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.controls input {
+  padding: 8px;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.controls button {
+  padding: 10px;
+  font-size: 15px;
+  background: #005aa7;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background: #003f7f;
+}
+
+.preview-area {
+  margin-top: 20px;
+  text-align: center;
+}
+
+canvas {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  background: #000;
+}
+
+.notes {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #555;
+}
+
+@media (max-width: 600px) {
+  .controls {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+  <h2>Thumbnail / Banner Generator (16:9 — 1280 × 720)</h2>
+
+  <div class="controls">
+    <label>
+      Driver Photo
+      <input id="driverFile" type="file" accept="image/*">
+    </label>
+
+    <label>
+      Title
+      <input id="titleInput" type="text" value="Sree Kantha Tour and Travel">
+    </label>
+
+    <label>
+      Taxi Number
+      <input id="taxiInput" type="text" value="AP 04 T5621">
+    </label>
+
+    <label>
+      Stand Name
+      <input id="standInput" type="text" value="Tirupati">
+    </label>
+
+    <label>
+      License Number
+      <input id="licenseInput" type="text" placeholder="APXX/123456">
+    </label>
+
+    <button id="renderBtn">Render Banner</button>
+    <button id="downloadBtn">Download PNG</button>
+  </div>
+
+  <div class="preview-area">
+    <canvas id="bannerCanvas" width="1280" height="720"></canvas>
+  </div>
+
+  <p class="notes">
+    Upload driver photo, enter details, click Render. QR removed as requested.
+  </p>
+</div>
+
+<script>
+const canvas = document.getElementById("bannerCanvas");
+const ctx = canvas.getContext("2d");
+
+let driverImg = new Image();
+
+document.getElementById("driverFile").addEventListener("change", e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    driverImg.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById("renderBtn").onclick = () => {
+  // Background
+  const grd = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+  grd.addColorStop(0, "#005aa7");
+  grd.addColorStop(1, "#00c6fb");
+  ctx.fillStyle = grd;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Driver Image
+  if (driverImg.src) {
+    ctx.drawImage(driverImg, 50, 100, 350, 450);
+  }
+
+  // Text
+  ctx.fillStyle = "#fff";
+  ctx.font = "bold 64px Arial";
+  ctx.fillText(
+    document.getElementById("titleInput").value,
+    450, 180
+  );
+
+  ctx.font = "bold 46px Arial";
+  ctx.fillText(
+    "Taxi: " + document.getElementById("taxiInput").value,
+    450, 280
+  );
+
+  ctx.font = "36px Arial";
+  ctx.fillText(
+    "Stand: " + document.getElementById("standInput").value,
+    450, 350
+  );
+
+  ctx.fillText(
+    "License: " + document.getElementById("licenseInput").value,
+    450, 410
+  );
+};
+
+document.getElementById("downloadBtn").onclick = () => {
+  const link = document.createElement("a");
+  link.download = "taxi-banner.png";
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+};
+</script>
+
+</body>
+</html>
