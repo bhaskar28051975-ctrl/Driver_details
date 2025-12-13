@@ -1,62 +1,59 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sree Kantha — Thumbnail Banner Generator</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sree Kantha – Thumbnail Banner Generator</title>
 
 <style>
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
-  background: #f4f6f9;
+  margin: 0;
+  background: #f2f2f2;
 }
 
 .page {
-  max-width: 1100px;
+  max-width: 900px;
   margin: auto;
   padding: 15px;
 }
 
 h2 {
   text-align: center;
+  font-size: 32px;
   margin-bottom: 15px;
 }
 
 .controls {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  background: #fff;
+  background: #ffffff;
   padding: 15px;
   border-radius: 10px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
 .controls label {
-  font-size: 14px;
-  display: flex;
-  flex-direction: column;
+  display: block;
+  margin-bottom: 10px;
+  font-size: 18px;
 }
 
 .controls input {
-  padding: 8px;
-  margin-top: 5px;
-  font-size: 14px;
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  margin-top: 4px;
 }
 
 .controls button {
-  padding: 10px;
-  font-size: 15px;
-  background: #005aa7;
-  color: #fff;
+  margin-top: 10px;
+  padding: 12px;
+  font-size: 18px;
+  width: 100%;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-}
-
-.controls button:hover {
-  background: #003f7f;
+  background: #005aa7;
+  color: #fff;
 }
 
 .preview-area {
@@ -65,23 +62,16 @@ h2 {
 }
 
 canvas {
+  width: 100%;
   max-width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  background: #000;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
 }
 
 .notes {
-  text-align: center;
   margin-top: 10px;
-  font-size: 13px;
-  color: #555;
-}
-
-@media (max-width: 600px) {
-  .controls {
-    grid-template-columns: 1fr;
-  }
+  text-align: center;
+  font-size: 16px;
 }
 </style>
 </head>
@@ -89,36 +79,31 @@ canvas {
 <body>
 
 <div class="page">
-  <h2>Thumbnail / Banner Generator (16:9 — 1280 × 720)</h2>
+  <h2>Thumbnail / Banner Generator (16:9 — 1280×720)</h2>
 
   <div class="controls">
-    <label>
-      Driver Photo
+    <label>Driver Photo:
       <input id="driverFile" type="file" accept="image/*">
     </label>
 
-    <label>
-      Title
+    <label>Title:
       <input id="titleInput" type="text" value="Sree Kantha Tour and Travel">
     </label>
 
-    <label>
-      Taxi Number
+    <label>Taxi Number:
       <input id="taxiInput" type="text" value="AP 04 T5621">
     </label>
 
-    <label>
-      Stand Name
+    <label>Stand Name:
       <input id="standInput" type="text" value="Tirupati">
     </label>
 
-    <label>
-      License Number
-      <input id="licenseInput" type="text" placeholder="APXX/123456">
+    <label>License Number:
+      <input id="licenseInput" type="text" value="APXX/123456">
     </label>
 
-    <button id="renderBtn">Render Banner</button>
-    <button id="downloadBtn">Download PNG</button>
+    <button onclick="renderBanner()">Render Banner</button>
+    <button onclick="downloadBanner()">Download PNG</button>
   </div>
 
   <div class="preview-area">
@@ -126,17 +111,27 @@ canvas {
   </div>
 
   <p class="notes">
-    Upload driver photo, enter details, click Render. QR removed as requested.
+    Upload driver photo → Enter details → Render → Download  
   </p>
 </div>
 
 <script>
 const canvas = document.getElementById("bannerCanvas");
 const ctx = canvas.getContext("2d");
-
 let driverImg = new Image();
 
-document.getElementById("driverFile").addEventListener("change", e => {
+/* ===== AUTO FONT FIT FUNCTION ===== */
+function fitText(ctx, text, maxWidth, startSize, weight="bold") {
+  let size = startSize;
+  do {
+    ctx.font = `${weight} ${size}px Arial`;
+    size--;
+  } while (ctx.measureText(text).width > maxWidth && size > 20);
+  return ctx.font;
+}
+
+/* ===== LOAD DRIVER PHOTO ===== */
+document.getElementById("driverFile").addEventListener("change", function(e) {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
@@ -146,51 +141,59 @@ document.getElementById("driverFile").addEventListener("change", e => {
   reader.readAsDataURL(file);
 });
 
-document.getElementById("renderBtn").onclick = () => {
-  // Background
-  const grd = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-  grd.addColorStop(0, "#005aa7");
-  grd.addColorStop(1, "#00c6fb");
-  ctx.fillStyle = grd;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+/* ===== RENDER BANNER ===== */
+function renderBanner() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Driver Image
+  /* Background */
+  const gradient = ctx.createLinearGradient(0,0,canvas.width,canvas.height);
+  gradient.addColorStop(0,"#004e92");
+  gradient.addColorStop(1,"#000428");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  /* Driver Photo */
   if (driverImg.src) {
-    ctx.drawImage(driverImg, 50, 100, 350, 450);
+    ctx.drawImage(driverImg, 60, 160, 350, 420);
   }
 
-  // Text
-  ctx.fillStyle = "#fff";
-  ctx.font = "bold 64px Arial";
-  ctx.fillText(
-    document.getElementById("titleInput").value,
-    450, 180
-  );
+  const title = document.getElementById("titleInput").value;
+  const taxi = document.getElementById("taxiInput").value;
+  const stand = document.getElementById("standInput").value;
+  const license = document.getElementById("licenseInput").value;
 
-  ctx.font = "bold 46px Arial";
-  ctx.fillText(
-    "Taxi: " + document.getElementById("taxiInput").value,
-    450, 280
-  );
+  ctx.fillStyle = "#ffffff";
+  ctx.textAlign = "left";
 
-  ctx.font = "36px Arial";
-  ctx.fillText(
-    "Stand: " + document.getElementById("standInput").value,
-    450, 350
-  );
+  ctx.shadowColor = "rgba(0,0,0,0.4)";
+  ctx.shadowBlur = 6;
+  ctx.shadowOffsetX = 2;
+  ctx.shadowOffsetY = 2;
 
-  ctx.fillText(
-    "License: " + document.getElementById("licenseInput").value,
-    450, 410
-  );
-};
+  /* TITLE */
+  ctx.font = fitText(ctx, title, 750, 80, "bold");
+  ctx.fillText(title, 450, 220);
 
-document.getElementById("downloadBtn").onclick = () => {
+  /* TAXI NUMBER */
+  ctx.font = fitText(ctx, taxi, 750, 60, "bold");
+  ctx.fillText("Taxi No: " + taxi, 450, 300);
+
+  /* STAND */
+  ctx.font = fitText(ctx, stand, 750, 44, "normal");
+  ctx.fillText("Stand: " + stand, 450, 360);
+
+  /* LICENSE */
+  ctx.font = fitText(ctx, license, 750, 44, "normal");
+  ctx.fillText("License: " + license, 450, 420);
+}
+
+/* ===== DOWNLOAD ===== */
+function downloadBanner() {
   const link = document.createElement("a");
-  link.download = "taxi-banner.png";
+  link.download = "banner.png";
   link.href = canvas.toDataURL("image/png");
   link.click();
-};
+}
 </script>
 
 </body>
