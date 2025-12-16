@@ -184,16 +184,17 @@ function renderBanner() {
   ctx.fillText("Taxi No: " + taxi, 450, 300);
 
   /* STAND */
-  ctx.font = fitText(ctx, stand, 750, 60, "bold");
-  ctx.fillText("Stand: " + stand, 450, 300);
+ctx.font = fitText(ctx, stand, 750, 60, "bold");
+ctx.fillText("Stand: " + stand, 450, 360);
 
-  /* LICENSE */
-  ctx.font = fitText(ctx, license, 750, 60, "bold");
-  ctx.fillText("License: " + license, 450, 300);
+/* LICENSE */
+ctx.font = fitText(ctx, license, 750, 60, "bold");
+ctx.fillText("License: " + license, 450, 430);
 
-  /* PHONE NUMBER ✅ FIXED */
-  ctx.font = fitText(ctx, phone, 750, 60, "bold");
-  ctx.fillText("📞 " + phone, 450, 300);
+/* PHONE */
+ctx.font = fitText(ctx, phone, 750, 60, "bold");
+ctx.fillText("📞 " + phone, 450, 500);
+
 }
 
 /* ===== DOWNLOAD ===== */
